@@ -27,7 +27,7 @@ while [ 1 ]; do
   shutdownSignal=$(cat /sys/class/gpio/gpio$SHUTDOWN/value)
   if [ $shutdownSignal = 0 ]; then
     /bin/sleep 0.2
-  else  
+  else
     pulseStart=$(date +%s%N | cut -b1-13)
     while [ $shutdownSignal = 1 ]; do
       /bin/sleep 0.02
@@ -38,7 +38,7 @@ while [ 1 ]; do
       fi
       shutdownSignal=$(cat /sys/class/gpio/gpio$SHUTDOWN/value)
     done
-    if [ $(($(date +%s%N | cut -b1-13)-$pulseStart)) -gt $REBOOTPULSEMINIMUM ]; then 
+    if [ $(($(date +%s%N | cut -b1-13)-$pulseStart)) -gt $REBOOTPULSEMINIMUM ]; then
       echo "X728 Rebooting", SHUTDOWN, ", recycling Rpi ..."
       sudo reboot
       exit
@@ -46,7 +46,7 @@ while [ 1 ]; do
   fi
 done' > /etc/x728pwr.sh
 sudo chmod +x /etc/x728pwr.sh
-sudo sed -i '$ i /etc/x728pwr.sh &' /etc/rc.local 
+sudo sed -i '$ i /etc/x728pwr.sh &' /etc/rc.local
 
 
 #X728 full shutdown through Software
@@ -80,53 +80,8 @@ sudo chmod +x /usr/local/bin/x728softsd.sh
 #X728 Battery voltage & precentage reading
 #!/bin/bash
 
-    sudo sed -e '/shutdown/ s/^#*/#/' -i /etc/rc.local
-
-    echo '#!/usr/bin/env python
-import struct
-import smbus
-import sys
-import time
-
-
-def readVoltage(bus):
-
-     address = 0x36
-     read = bus.read_word_data(address, 2)
-     swapped = struct.unpack("<H", struct.pack(">H", read))[0]
-     voltage = swapped * 1.25 /1000/16
-     return voltage
-
-
-def readCapacity(bus):
-
-     address = 0x36
-     read = bus.read_word_data(address, 4)
-     swapped = struct.unpack("<H", struct.pack(">H", read))[0]
-     capacity = swapped/256
-     return capacity
-
-
-bus = smbus.SMBus(1) # 0 = /dev/i2c-0 (port I2C0), 1 = /dev/i2c-1 (port I2C1)
-
-while True:
-
- print "******************"
- print "Voltage:%5.2fV" % readVoltage(bus)
-
- print "Battery:%5i%%" % readCapacity(bus)
-
- if readCapacity(bus) == 100:
-
-         print "Battery FULL"
-
- if readCapacity(bus) < 20:
-
-
-         print "Battery LOW"
- print "******************"
- time.sleep(2)
-' > /home/pi/x728bat.py
+sudo sed -e '/shutdown/ s/^#*/#/' -i /etc/rc.local
+cp x728.py ~/x728.py
 sudo chmod +x /home/pi/x728bat.py
 
 #X728 AC Power loss / power adapter failture detection
@@ -156,4 +111,3 @@ print "4.When power adapter disconnected, you will see: AC Power OK, Power Adapt
 raw_input("Testing Started")
 ' > /home/pi/x728pld.py
 sudo chmod +x /home/pi/x728pld.py
-
