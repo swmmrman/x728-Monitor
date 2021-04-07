@@ -55,4 +55,4 @@ sudo chmod +x /home/pi/x728bat.py
     sudo sed -e '/button/ s/^#*/#/' -i /etc/rc.local
 
 cp x728pld.py  /home/$(whoami)/x728pld.py
-sudo chmod +x /home/pi/x728pld.py
+chmod +x /home/$(whoami)/x728pld.py
