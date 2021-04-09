@@ -20,3 +20,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(PINS['AC'], GPIO.IN) #AC detect pin is read only
 GPIO.setup(PINS['BOOT', GPIO.OUT])
 GPIO.setup(PINS['OFF'])
+GPIO.output(PINS['BOOT'], 1) # Set boot pin high to indicate we are running
+
+AC_OUT = GPIO.input(PINS['AC'])
+GPIO.add_event_detect(PINS['AC', GPIO.BOTH, callback=power_changed])
