@@ -45,17 +45,17 @@ PINS = {
 }
 MIN_VOLTS = 3.14
 
-GPIO.setwarning(False) #disable incase of relaunch.
+GPIO.setwarnings(False) #disable incase of relaunch.
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(PINS['AC'], GPIO.IN) #AC detect pin is read only
-GPIO.setup(PINS['BOOT', GPIO.OUT])
-GPIO.setup(PINS['OFF'])
+GPIO.setup(PINS['BOOT'], GPIO.OUT)
+GPIO.setup(PINS['OFF'], GPIO.OUT)
 GPIO.output(PINS['BOOT'], 1) # Set boot pin high to indicate we are running
 
 AC_OUT = GPIO.input(PINS['AC'])
-GPIO.add_event_detect(PINS['AC', GPIO.BOTH, callback=power_changed])
+GPIO.add_event_detect(PINS['AC'], GPIO.BOTH, callback=power_changed)
 
 while True:
     volts = get_voltage(bus)
     if volts < MIN_VOLTS and AC_OUT: #check AC status and battery power
-    call_shutdown()
+        call_shutdown()
