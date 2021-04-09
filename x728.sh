@@ -46,8 +46,8 @@ sudo chmod +x /usr/local/bin/x728softsd.sh
 #!/bin/bash
 
 sudo sed -e '/shutdown/ s/^#*/#/' -i /etc/rc.local
-cp x728.py ~/x728.py
-sudo chmod +x /home/pi/x728bat.py
+cp x728.py /home/$(whoami)/x728batt.py
+chmod +x /home/$(whoami)/x728batt.py
 
 #X728 AC Power loss / power adapter failture detection
 #!/bin/bash
