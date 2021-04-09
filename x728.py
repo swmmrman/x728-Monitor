@@ -7,6 +7,17 @@ import RPi.GPIO as GPIO
 import sys
 import os
 
+def power_changed(channel):
+    global AC_OUT
+    current_time = time.asctime()
+    if GPIO.input(PINS['AC']):
+        AC_OUT = True
+        print(F"{current_time}: Power Lost")
+    else:
+        AC_OUT = False
+        print(F"{current_time} Power Restored")
+
+
 bus = smbus.SMBus(1) # setup the SMBus to read from.
 
 PINS = {
