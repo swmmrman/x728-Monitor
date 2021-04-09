@@ -6,3 +6,5 @@ import time
 import RPi.GPIO as GPIO
 import sys
 import os
+
+bus = smbus.SMBus(1) # setup the SMBus to read from.
