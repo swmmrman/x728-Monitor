@@ -28,6 +28,14 @@ def get_voltage(bus):
     return voltage
 
 
+def call_shutdown():
+    GPIO.output(PINS['OFF'], 1) # Set shutdown pin high.
+    time.sleep(4) # 4 seconds to signal we are shutting down the X728
+    GPIO.output(PINS['OFF'], 0) # Set back low to prevent forced off.
+    os.system('shutdown now')
+    GPIO.cleanup()
+    sys.exit(0) # Exit out.
+
 bus = smbus.SMBus(1) # setup the SMBus to read from.
 
 PINS = {
@@ -51,4 +59,3 @@ while True:
     volts = get_voltage(bus)
     if volts < MIN_VOLTS and AC_OUT: #check AC status and battery power
     call_shutdown()
-    
