@@ -14,3 +14,9 @@ PINS = {
     'BOOT': 12, #Pin to signal the pi as running
     'OFF': 13, #Pin to signal we are shutting down
 }
+
+GPIO.setwarning(False) #disable incase of relaunch.
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(PINS['AC'], GPIO.IN) #AC detect pin is read only
+GPIO.setup(PINS['BOOT', GPIO.OUT])
+GPIO.setup(PINS['OFF'])
