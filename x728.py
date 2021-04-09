@@ -10,7 +10,7 @@ import os
 bus = smbus.SMBus(1) # setup the SMBus to read from.
 
 PINS = {
-    'AC': 6,
-    'BOOT': 12,
-    'OFF': 13,
+    'AC': 6, # AC detection pin, High when external power is lost.
+    'BOOT': 12, #Pin to signal the pi as running
+    'OFF': 13, #Pin to signal we are shutting down
 }
