@@ -15,7 +15,7 @@ def power_changed(channel):
         print(F"{current_time}: Power Lost")
     else:
         AC_OUT = False
-        print(F"{current_time} Power Restored")
+        print(F"{current_time}: Power Restored")
 
 
 def get_voltage(bus):
