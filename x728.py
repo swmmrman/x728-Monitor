@@ -35,6 +35,7 @@ PINS = {
     'BOOT': 12, #Pin to signal the pi as running
     'OFF': 13, #Pin to signal we are shutting down
 }
+MIN_VOLTS = 3.14
 
 GPIO.setwarning(False) #disable incase of relaunch.
 GPIO.setmode(GPIO.BCM)
@@ -45,3 +46,9 @@ GPIO.output(PINS['BOOT'], 1) # Set boot pin high to indicate we are running
 
 AC_OUT = GPIO.input(PINS['AC'])
 GPIO.add_event_detect(PINS['AC', GPIO.BOTH, callback=power_changed])
+
+while True:
+    volts = get_voltage(bus)
+    if volts < MIN_VOLTS and AC_OUT: #check AC status and battery power
+    call_shutdown()
+    
