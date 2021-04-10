@@ -28,7 +28,7 @@ def get_capacity(bus):
     address = 0x36 #address of battery gauge.
     data_big_e = bus.read_word_data(address, 4)
     #change the endian to little
-    data_little_e = struct.unpack("<H", struct.pack(">H", data_big_e))
+    data_little_e = struct.unpack("<H", struct.pack(">H", data_big_e))[0]
     #convert value to capacity, numbers from manufacturer
     capacity = data_little_e / 256
 
