@@ -31,6 +31,7 @@ def get_capacity(bus):
     data_little_e = struct.unpack("<H", struct.pack(">H", data_big_e))[0]
     #convert value to capacity, numbers from manufacturer
     capacity = data_little_e / 256
+    return capacity
 
 
 def call_shutdown():
