@@ -3,6 +3,17 @@ import struct
 import smbus
 import RPi.GPIO as GPIO
 
+def power_changed(channel):
+    global AC_OUT
+    current_time = time.asctime()
+    if GPIO.input(PINS['AC']):
+        AC_OUT = True
+        print(F"{current_time}: Power Lost")
+    else:
+        AC_OUT = False
+        print(F"{current_time}: Power Restored")
+
+
 def get_voltage(bus):
     address = 0x36 # Address of the Battery gauge.
     data_big_e = bus.read_word_data(address, 2)
@@ -11,3 +22,12 @@ def get_voltage(bus):
     #convert value to Voltage, numbers from manufacturer.
     voltage = data_little_e * 1.25 / 1000 / 16
     return voltage
+
+
+def call_shutdown():
+    GPIO.output(PINS['OFF'], 1) # Set shutdown pin high.
+    time.sleep(4) # 4 seconds to signal we are shutting down the X728
+    GPIO.output(PINS['OFF'], 0) # Set back low to prevent forced off.
+    os.system('shutdown now')
+    GPIO.cleanup()
+    sys.exit(0) # Exit out.
