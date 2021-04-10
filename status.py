@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 
-import struct
 import smbus
 import time
-import RPi.GPIO as GPIO
+import x728
 
-#import sys
-#import os
+bus = smbus.SMBus(1)
+x728.get_voltage(bus)
