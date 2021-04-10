@@ -43,7 +43,7 @@ PINS = {
     'BOOT': 12, #Pin to signal the pi as running
     'OFF': 13, #Pin to signal we are shutting down
 }
-MIN_VOLTS = 3.14
+MIN_VOLTS = 3.5
 
 GPIO.setwarnings(False) #disable incase of relaunch.
 GPIO.setmode(GPIO.BCM)
