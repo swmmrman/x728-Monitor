@@ -31,3 +31,9 @@ def call_shutdown():
     os.system('shutdown now')
     GPIO.cleanup()
     sys.exit(0) # Exit out.
+
+PINS = {
+    'AC': 6, # AC detection pin, High when external power is lost.
+    'BOOT': 12, #Pin to signal the pi as running
+    'OFF': 13, #Pin to signal we are shutting down
+}
