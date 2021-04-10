@@ -24,6 +24,15 @@ def get_voltage(bus):
     return voltage
 
 
+def get_capacity(bus):
+    address = 0x36 #address of battery gauge.
+    data_big_e = bus.read_word_data(address, 4)
+    change the endian to little
+    data_little_e = struct.unpack("<H", struct.pack(">H", data_big_e))
+    #convert value to capacity, numbers from manufacturer
+    capacity = data_little_e / 256
+
+
 def call_shutdown():
     GPIO.output(PINS['OFF'], 1) # Set shutdown pin high.
     time.sleep(4) # 4 seconds to signal we are shutting down the X728
@@ -31,6 +40,7 @@ def call_shutdown():
     os.system('shutdown now')
     GPIO.cleanup()
     sys.exit(0) # Exit out.
+
 
 PINS = {
     'AC': 6, # AC detection pin, High when external power is lost.
