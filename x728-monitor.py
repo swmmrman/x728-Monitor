@@ -55,7 +55,16 @@ GPIO.output(PINS['BOOT'], 1) # Set boot pin high to indicate we are running
 AC_OUT = GPIO.input(PINS['AC'])
 GPIO.add_event_detect(PINS['AC'], GPIO.BOTH, callback=power_changed)
 
+# warning, ugly code (I've never touched python)
+# shut down when power is out after x seconds.  Shut down immediately if power out and batt is low
 while True:
-    volts = get_voltage(bus)
-    if volts < MIN_VOLTS and AC_OUT: #check AC status and battery power
-        call_shutdown()
+    while AC_OUT:
+        volts = get_voltage(bus)
+        timeout = 30 #seconds
+        while AC_OUT:    
+            timeout -= 1
+            if timeout <= 0 or volts < MIN_VOLTS:
+                call_shutdown()
+            else:
+                time.sleep(1)
+
