@@ -58,10 +58,14 @@ GPIO.add_event_detect(PINS['AC'], GPIO.BOTH, callback=power_changed)
 # warning, ugly code (I've never touched python)
 # shut down when power is out after x seconds.  Shut down immediately if power out and batt is low
 while True:
-    while AC_OUT:
-        volts = get_voltage(bus)
+    time.sleep(1)
+    if AC_OUT:
+        current_time = time.asctime()
+        print(F"{current_time}:Starting power off countdown")
         timeout = 30 #seconds
-        while AC_OUT:    
+        while AC_OUT:
+            print(F"{timeout}:tic")    
+            volts = get_voltage(bus)
             timeout -= 1
             if timeout <= 0 or volts < MIN_VOLTS:
                 call_shutdown()
