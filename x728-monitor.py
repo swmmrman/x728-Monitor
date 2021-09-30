@@ -29,19 +29,21 @@ def get_voltage(bus):
 
 
 def call_shutdown():
-    GPIO.output(PINS['OFF'], 1) # Set shutdown pin high.
+    GPIO.output(PINS['OFF'], GPIO.HIGH) # Set shutdown pin high.
     time.sleep(4) # 4 seconds to signal we are shutting down the X728
-    GPIO.output(PINS['OFF'], 0) # Set back low to prevent forced off.
-    os.system('shutdown now')
-    GPIO.cleanup()
-    sys.exit(0) # Exit out.
+    GPIO.output(PINS['OFF'],  GPIO.LOW) # Set back low to prevent forced off.
+    print(F"{time.asctime()}:X728 Shutting down...")
+    os.system('sudo poweroff')
+    # GPIO.cleanup()
+    # sys.exit(0) # Exit out.
 
 bus = smbus.SMBus(1) # setup the SMBus to read from.
+# Global settings
 
 PINS = {
     'AC': 6, # AC detection pin, High when external power is lost.
     'BOOT': 12, #Pin to signal the pi as running
-    'OFF': 13, #Pin to signal we are shutting down
+    'OFF': 26 , #Pin to signal we are shutting down   # GPIO is 26 for x728 v2.0, GPIO is 13 for X728 v1.2/v1.3
 }
 MIN_VOLTS = 3.5
 
@@ -50,7 +52,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(PINS['AC'], GPIO.IN) #AC detect pin is read only
 GPIO.setup(PINS['BOOT'], GPIO.OUT)
 GPIO.setup(PINS['OFF'], GPIO.OUT)
-GPIO.output(PINS['BOOT'], 1) # Set boot pin high to indicate we are running
+GPIO.output(PINS['BOOT'], GPIO.HIGH) # Set boot pin high to indicate we are running
 
 AC_OUT = GPIO.input(PINS['AC'])
 GPIO.add_event_detect(PINS['AC'], GPIO.BOTH, callback=power_changed)
