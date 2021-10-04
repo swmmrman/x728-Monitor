@@ -25,5 +25,5 @@ To disable the service to prevent starting at boot, run
 
 # Coming soon
 1. Config file support.
-  a. Allowing setting of board version.
-  b. Configurable shutdown time.
+  A. Allowing setting of board version.
+  B. Configurable shutdown time.
