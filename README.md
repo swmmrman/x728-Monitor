@@ -1,8 +1,8 @@
 # x728
 Monitor for the x728 Pi UPS.
 This will perform a safe shutdown after a specified timeout once the external is cut.
-This is tested,and developed using Raspbian on a Raspberry Pi 4
-
+This is tested,and developed using Raspbian on a Raspberry Pi 4.
+Currently it also works on a Raspberry Pi 3b+.  However this support will not be guaranteed.
 
 Steps:
 1.  Enable the ds1307 overlay, and i2c in the /boot/config.txt
@@ -21,3 +21,10 @@ To disable the service to prevent starting at boot, run
   sudo systemctl disable x728Monitor.service
   or
   sudo service x728Monitor.service disable
+
+
+# Coming soon
+Config file support.
+  Allowing setting of board version.
+  Configurable shutdown time.
+  
