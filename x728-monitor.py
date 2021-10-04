@@ -60,7 +60,7 @@ def main():
     if(os.getuid() != 0):
         print("This must be run as root")
         sys.exit(1)
-    global time_left
+    global time_left, AC_OUT
     MIN_VOLTS = 3.5
     bus = smbus.SMBus(1)  # setup the SMBus to read from.
     GPIO.setwarnings(False)  # disable incase of relaunch.
