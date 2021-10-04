@@ -39,7 +39,7 @@ def call_shutdown():
     time.sleep(4)  # 4 seconds to signal we are shutting down the X728
     GPIO.output(PINS['OFF'],  GPIO.LOW)  # Set back low to prevent forced off.
     print(F"{time.asctime()}:X728 Shutting down...")
-    os.system('sudo poweroff')
+    os.system('poweroff')
     # GPIO.cleanup()
     # sys.exit(0) # Exit out.
 
