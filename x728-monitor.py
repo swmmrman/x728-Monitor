@@ -9,7 +9,7 @@ import os
 
 
 def power_changed(channel):
-    global AC_OUT
+    global AC_OUT, time_left, TIMEOUT
     current_time = time.asctime()
     if GPIO.input(PINS['AC']):
         AC_OUT = True
@@ -17,6 +17,7 @@ def power_changed(channel):
     else:
         AC_OUT = False
         print(F"{current_time}: Power Restored")
+        time_left = TIMEOUT
 
 
 def get_voltage(bus):
@@ -39,9 +40,7 @@ def call_shutdown():
     # sys.exit(0) # Exit out.
 
 
-bus = smbus.SMBus(1)  # setup the SMBus to read from.
 # Global settings
-
 PINS = {
     'AC': 6,  # AC detection pin, High when external power is lost.
     'BOOT': 12,  # Pin to signal the pi as running
@@ -49,10 +48,14 @@ PINS = {
     # GPIO is 26 for x728 v2.0, GPIO is 13 for X728 v1.2/v1.3
     'OFF': 26,
 }
-MIN_VOLTS = 3.5
+TIMEOUT = 30
+time_left = TIMEOUT
 
 
 def main():
+    global time_left
+    MIN_VOLTS = 3.5
+    bus = smbus.SMBus(1)  # setup the SMBus to read from.
     GPIO.setwarnings(False)  # disable incase of relaunch.
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(PINS['AC'], GPIO.IN)  # AC detect pin is read only
@@ -76,8 +79,8 @@ def main():
             while AC_OUT:
                 print(F"{timeout}:tic")
                 volts = get_voltage(bus)
-                timeout -= 1
-                if timeout <= 0 or volts < MIN_VOLTS:
+                time_left -= 1
+                if time_left <= 0 or volts < MIN_VOLTS:
                     call_shutdown()
                 else:
                     time.sleep(1)
