@@ -15,8 +15,8 @@ def power_changed(channel):
         AC_OUT = True
         print(
             F"{current_time}: X728: Power Lost\n"
-            F"Starting power off countdown"
-            F"{TIMEOUT}: seconds until shutdown"
+            F"Starting power off countdown\n"
+            F"{TIMEOUT}: seconds until shutdown\n"
         )
     else:
         AC_OUT = False
