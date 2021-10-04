@@ -51,31 +51,37 @@ PINS = {
 }
 MIN_VOLTS = 3.5
 
-GPIO.setwarnings(False)  # disable incase of relaunch.
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(PINS['AC'], GPIO.IN)  # AC detect pin is read only
-GPIO.setup(PINS['BOOT'], GPIO.OUT)
-GPIO.setup(PINS['OFF'], GPIO.OUT)
-# Set boot pin high to indicate we are running
-GPIO.output(PINS['BOOT'], GPIO.HIGH)
 
-AC_OUT = GPIO.input(PINS['AC'])
-GPIO.add_event_detect(PINS['AC'], GPIO.BOTH, callback=power_changed)
+def main():
+    GPIO.setwarnings(False)  # disable incase of relaunch.
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(PINS['AC'], GPIO.IN)  # AC detect pin is read only
+    GPIO.setup(PINS['BOOT'], GPIO.OUT)
+    GPIO.setup(PINS['OFF'], GPIO.OUT)
+    # Set boot pin high to indicate we are running
+    GPIO.output(PINS['BOOT'], GPIO.HIGH)
 
-# warning, ugly code (I've never touched python)
-# shut down when power is out after x seconds.
-# Shut down immediately if power out and batt is low
-while True:
-    time.sleep(1)
-    if AC_OUT:
-        current_time = time.asctime()
-        print(F"{current_time}:Starting power off countdown")
-        timeout = 30  # seconds
-        while AC_OUT:
-            print(F"{timeout}:tic")
-            volts = get_voltage(bus)
-            timeout -= 1
-            if timeout <= 0 or volts < MIN_VOLTS:
-                call_shutdown()
-            else:
-                time.sleep(1)
+    AC_OUT = GPIO.input(PINS['AC'])
+    GPIO.add_event_detect(PINS['AC'], GPIO.BOTH, callback=power_changed)
+
+    # warning, ugly code (I've never touched python)
+    # shut down when power is out after x seconds.
+    # Shut down immediately if power out and batt is low
+    while True:
+        time.sleep(1)
+        if AC_OUT:
+            current_time = time.asctime()
+            print(F"{current_time}:Starting power off countdown")
+            timeout = 30  # seconds
+            while AC_OUT:
+                print(F"{timeout}:tic")
+                volts = get_voltage(bus)
+                timeout -= 1
+                if timeout <= 0 or volts < MIN_VOLTS:
+                    call_shutdown()
+                else:
+                    time.sleep(1)
+
+
+if __name__ == "__main__":
+    main()
