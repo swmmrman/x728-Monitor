@@ -73,10 +73,6 @@ def main():
 
     AC_OUT = GPIO.input(PINS['AC'])
     GPIO.add_event_detect(PINS['AC'], GPIO.BOTH, callback=power_changed)
-
-    # warning, ugly code (I've never touched python)
-    # shut down when power is out after x seconds.
-    # Shut down immediately if power out and batt is low
     while True:
         time.sleep(1)
         if AC_OUT:
