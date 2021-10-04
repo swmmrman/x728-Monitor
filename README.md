@@ -12,3 +12,12 @@ Steps:
 2. reboot
 3. Run sudo ./setup.sh
 4. run with sudo ./x728-monitor.py or sudo ython3 x728-monitor.py
+5. Optional,  To start as a servive.  Stop any running instance, and run
+  sudo systectl start x728Monitor.service
+  or
+  sudo service x728Monitor.service start
+
+To disable the service to prevent starting at boot, run
+  sudo systemctl disable x728Monitor.service
+  or
+  sudo service x728Monitor.service disable
