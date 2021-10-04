@@ -57,6 +57,9 @@ time_left = TIMEOUT
 
 
 def main():
+    if(os.getuid() != 0):
+        print("This must be run as root")
+        os.exit(1)
     global time_left
     MIN_VOLTS = 3.5
     bus = smbus.SMBus(1)  # setup the SMBus to read from.
