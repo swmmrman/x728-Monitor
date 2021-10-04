@@ -13,7 +13,11 @@ def power_changed(channel):
     current_time = time.asctime()
     if GPIO.input(PINS['AC']):
         AC_OUT = True
-        print(F"{current_time}: Power Lost")
+        print(
+            F"{current_time}: X728: Power Lost\n"
+            F"Starting power off countdown"
+            F"{TIMEOUT}: seconds until shutdown"
+        )
     else:
         AC_OUT = False
         print(F"{current_time}: Power Restored")
@@ -73,17 +77,10 @@ def main():
     while True:
         time.sleep(1)
         if AC_OUT:
-            current_time = time.asctime()
-            print(F"{current_time}:Starting power off countdown")
-            timeout = 30  # seconds
-            while AC_OUT:
-                print(F"{timeout}:tic")
-                volts = get_voltage(bus)
-                time_left -= 1
-                if time_left <= 0 or volts < MIN_VOLTS:
-                    call_shutdown()
-                else:
-                    time.sleep(1)
+            volts = get_voltage(bus)
+            time_left -= 1
+            if time_left <= 0 or volts < MIN_VOLTS:
+                call_shutdown()
 
 
 if __name__ == "__main__":
