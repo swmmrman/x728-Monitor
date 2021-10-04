@@ -1,5 +1,5 @@
 # x728
-Monitor for the x728 Pi UPS. 
+Monitor for the x728 Pi UPS.
 This will perform a safe shutdown after a specified timeout once the external is cut.
 This is tested,and developed using Raspbian on a Raspberry Pi 4
 
@@ -11,4 +11,4 @@ Steps:
   B. Add/uncomment dtparam=i2c_arm=on.
 2. reboot
 3. Run sudo ./setup.sh
-4. run with ./x728.py
+4. run with sudo ./x728-monitor.py or sudo ython3 x728-monitor.py
