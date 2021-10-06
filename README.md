@@ -40,4 +40,5 @@ Raspberry PI 3B+*|v1.3,v2.0
 
 Devices that are not compatible
 
-NanoPi M4 all versions all x728s.  The needed pins are 1.8v.
+NanoPi M4 all versions all x728s.
+The libraries are not available, and the needed pins are 1.8v.
