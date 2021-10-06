@@ -11,6 +11,7 @@ class x728(object):
 
     def __init__(self, version, bus):
         self.version = version
+        self.bus = bus
         self.PINS = {
             'AC': 6,  # AC detection pin, High when external power is lost.
             'BOOT': 12,  # Pin to signal the pi as running
@@ -23,16 +24,16 @@ class x728(object):
         # Convert from big to little endian
         return struct.unpack("<H", struct.pack(">H", value))[0]
 
-    def get_voltage(self, bus):
+    def get_voltage(self):
         address = 0x36  # Address of the Battery gauge.
-        data = self.endian_swap(bus.read_word_data(address, 2))
+        data = self.endian_swap(self.bus.read_word_data(address, 2))
         # convert value to Voltage, numbers from manufacturer.
         voltage = data * 1.25 / 1000 / 16
         return voltage
 
-    def get_capacity(self, bus):
+    def get_capacity(self):
         address = 0x36  # Address of the Battery gauge.
-        data = self.endian_swap(bus.read_word_data(address, 4))
+        data = self.endian_swap(self.bus.read_word_data(address, 4))
         # convert to capacity and return
         return data / 256
 
