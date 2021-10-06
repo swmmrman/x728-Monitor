@@ -3,6 +3,7 @@ Monitor for the x728 Pi UPS.
 This will perform a safe shutdown after a specified timeout once the external is cut.
 This is tested,and developed using Raspbian on a Raspberry Pi 4.
 Currently it also works on a Raspberry Pi 3b+.  However this support will not be guaranteed.
+Compatible device list is below.
 
 Steps:
 1.  Enable the ds1307 overlay, and i2c in the /boot/config.txt
@@ -27,3 +28,16 @@ To disable the service to prevent starting at boot, run
 * Config file support.
   * Allowing setting of board version.
   * Configurable shutdown time.
+
+
+Compatible Devices
+Computer | x728 version
+-------- | -----------
+Raspberry Pi 4B|v1.3,v2.0
+Raspberry PI 3B+*|X728 v1.3,v2.0
+
+*Support in the future is not guaranteed.
+
+Devices that are not compatible
+
+NanoPi M4 all versions all x728s.  The needed pins are 1.8v.
