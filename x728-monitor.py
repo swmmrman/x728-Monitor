@@ -85,7 +85,7 @@ def main():
     GPIO.add_event_detect(PINS['AC'], GPIO.BOTH, callback=power_changed)
     while True:
         if DEBUG:
-            print(F" {get_voltage(bus)} {get_capacity(bus)}%", end="\r")
+            print(F"\033[1A{get_voltage(bus):.2f} {get_capacity(bus):.2f}%")
         time.sleep(1)
         if AC_OUT:
             volts = get_voltage(bus)
