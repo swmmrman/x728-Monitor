@@ -34,7 +34,7 @@ Compatible Devices
 Computer | x728 version
 -------- | -----------
 Raspberry Pi 4B|v1.3,v2.0
-Raspberry PI 3B+*|X728 v1.3,v2.0
+Raspberry PI 3B+*|v1.3,v2.0
 
 *Support in the future is not guaranteed.
 
