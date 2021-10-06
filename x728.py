@@ -42,5 +42,3 @@ class x728(object):
         GPIO.output(self.PINS['OFF'],  GPIO.LOW)  # Set back low to prevent forced off.
         print(F"{time.asctime()}:X728 Shutting down...")
         os.system('poweroff')
-        # GPIO.cleanup()
-        # sys.exit(0) # Exit out.
