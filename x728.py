@@ -7,17 +7,17 @@ if __name__ == "__main__":
     print("I cannot be run directly")
 
 class x728(object):
-    """docstring for x728."""
+    """x728 controller."""
 
     def __init__(self, version, bus):
         self.version = version
         self.PINS = {
             'AC': 6,  # AC detection pin, High when external power is lost.
             'BOOT': 12,  # Pin to signal the pi as running
-            # Pin to signal we are shutting down
-            # GPIO is 26 for x728 v2.0, GPIO is 13 for X728 v1.2/v1.3
-            'OFF': 26,
+            'OFF': 26,  # Pin to signal we are shutting down 26 for v2.0 and up
         }
+        if(version < 2):
+            self.PINS['OFF'] = 13  # 13 for older boards.
 
     def get_voltage(self, bus):
         address = 0x36  # Address of the Battery gauge.
