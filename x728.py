@@ -1,7 +1,19 @@
-import smbus
+import os
+import struct
+import time
+import RPi.GPIO as GPIO
 
 if __name__ == "__main__":
     print("I cannot be run directly")
+
+
+PINS = {
+    'AC': 6,  # AC detection pin, High when external power is lost.
+    'BOOT': 12,  # Pin to signal the pi as running
+    # Pin to signal we are shutting down
+    # GPIO is 26 for x728 v2.0, GPIO is 13 for X728 v1.2/v1.3
+    'OFF': 26,
+}
 
 
 def get_voltage(bus):
