@@ -19,21 +19,22 @@ class x728(object):
         if(version < 2):
             self.PINS['OFF'] = 13  # 13 for older boards.
 
+    def endian_swap(value):
+        # Convert from big to little endian
+        return struct.unpack("<H", struct.pack(">H", value))[0]
+
     def get_voltage(self, bus):
         address = 0x36  # Address of the Battery gauge.
-        data_big_e = bus.read_word_data(address, 2)
-        # Convert from big to little endian
-        data_little_e = struct.unpack("<H", struct.pack(">H", data_big_e))[0]
+        data = self.endian_swap(bus.read_word_data(address, 2))
         # convert value to Voltage, numbers from manufacturer.
-        voltage = data_little_e * 1.25 / 1000 / 16
+        voltage = data * 1.25 / 1000 / 16
         return voltage
 
     def get_capacity(self, bus):
         address = 0x36  # Address of the Battery gauge.
-        data_big_e = bus.read_word_data(address, 4)
-        # Convert from big to little endian
-        data_little_e = struct.unpack("<H", struct.pack(">H", data_big_e))[0]
-        return data_little_e / 256
+        data = self.endian_swap(bus.read_word_data(address, 4))
+        # convert to capacity and return
+        return data / 256
 
     def call_shutdown(self):
         GPIO.output(self.PINS['OFF'], GPIO.HIGH)  # Set shutdown pin high.
