@@ -20,6 +20,9 @@ class x728(object):
         }
         if(version < 2):
             self.PINS['OFF'] = 13  # 13 for older boards.
+        self.voltage = self.get_voltage()
+        self.capacity = self.capacity()
+        self.ac_status = GPIO.input(self.PINS['AC'])
 
     def endian_swap(value):
         """Convert from big to little endian"""
