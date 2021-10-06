@@ -6,6 +6,7 @@ import RPi.GPIO as GPIO
 if __name__ == "__main__":
     print("I cannot be run directly")
 
+
 class x728(object):
     """x728 controller."""
 
@@ -38,8 +39,14 @@ class x728(object):
         return data / 256
 
     def call_shutdown(self):
-        GPIO.output(self.PINS['OFF'], GPIO.HIGH)  # Set shutdown pin high.
-        time.sleep(4)  # 4 seconds to signal we are shutting down the X728
-        GPIO.output(self.PINS['OFF'],  GPIO.LOW)  # Set back low to prevent forced off.
+        """
+        Shutdown x728
+        Steps for shutdown
+        Set off pin high for 4 second, then back low. 6 seconds is forced off.
+        Send log message and call poweroff.
+        """
+        GPIO.output(self.PINS['OFF'], GPIO.HIGH)
+        time.sleep(4)
+        GPIO.output(self.PINS['OFF'],  GPIO.LOW)
         print(F"{time.asctime()}:X728 Shutting down...")
         os.system('poweroff')
