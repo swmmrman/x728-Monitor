@@ -22,10 +22,11 @@ class x728(object):
             self.PINS['OFF'] = 13  # 13 for older boards.
 
     def endian_swap(value):
-        # Convert from big to little endian
+        """Convert from big to little endian"""
         return struct.unpack("<H", struct.pack(">H", value))[0]
 
     def get_voltage(self):
+        """Fetch the current voltage of the batteries"""
         address = 0x36  # Address of the Battery gauge.
         data = self.endian_swap(self.bus.read_word_data(address, 2))
         # convert value to Voltage, numbers from manufacturer.
@@ -33,6 +34,7 @@ class x728(object):
         return voltage
 
     def get_capacity(self):
+        """Fetch the current capacity from the device"""
         address = 0x36  # Address of the Battery gauge.
         data = self.endian_swap(self.bus.read_word_data(address, 4))
         # convert to capacity and return
