@@ -24,7 +24,7 @@ class x728(object):
         self.capacity = self.capacity()
         self.ac_status = GPIO.input(self.PINS['AC'])
 
-    def endian_swap(value):
+    def endian_swap(self, value):
         """Convert from big to little endian"""
         return struct.unpack("<H", struct.pack(">H", value))[0]
 
@@ -55,3 +55,6 @@ class x728(object):
         GPIO.output(self.PINS['OFF'],  GPIO.LOW)
         print(F"{time.asctime()}:X728 Shutting down...")
         os.system('poweroff')
+
+    def change_ac_status(self, status):
+        self.ac_status = status
