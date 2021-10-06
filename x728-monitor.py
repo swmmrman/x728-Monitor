@@ -34,6 +34,14 @@ def get_voltage(bus):
     return voltage
 
 
+def get_capacity(bus):
+    address = 0x36  # Address of the Battery gauge.
+    data_big_e = bus.read_word_data(address, 4)
+    # Convert from big to little endian
+    data_little_e = struct.unpack("<H", struct.pack(">H", data_big_e))[0]
+    return data_little_e / 256
+
+
 def call_shutdown():
     GPIO.output(PINS['OFF'], GPIO.HIGH)  # Set shutdown pin high.
     time.sleep(4)  # 4 seconds to signal we are shutting down the X728
@@ -52,6 +60,8 @@ PINS = {
     # GPIO is 26 for x728 v2.0, GPIO is 13 for X728 v1.2/v1.3
     'OFF': 26,
 }
+
+DEBUG = False
 TIMEOUT = 30
 time_left = TIMEOUT
 
@@ -60,7 +70,7 @@ def main():
     if(os.getuid() != 0):
         print("This must be run as root")
         sys.exit(1)
-    global time_left, AC_OUT
+    global time_left, AC_OUT, DEBUG
     MIN_VOLTS = 3.5
     bus = smbus.SMBus(1)  # setup the SMBus to read from.
     GPIO.setwarnings(False)  # disable incase of relaunch.
@@ -74,6 +84,8 @@ def main():
     AC_OUT = GPIO.input(PINS['AC'])
     GPIO.add_event_detect(PINS['AC'], GPIO.BOTH, callback=power_changed)
     while True:
+        if DEBUG:
+            print(F" {get_voltage(bus)} {get_capacity(bus)}%", end="\r")
         time.sleep(1)
         if AC_OUT:
             volts = get_voltage(bus)
