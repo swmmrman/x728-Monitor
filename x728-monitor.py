@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import configparser
 import struct
 import smbus
 import time
@@ -20,7 +21,7 @@ def power_changed(channel):
         )
     else:
         AC_OUT = False
-        print(F"{current_time}: Power Restored")
+        print(F"{current_time}: Power Restored\n")
         time_left = TIMEOUT
 
 
@@ -67,11 +68,21 @@ time_left = TIMEOUT
 
 
 def main():
+    global time_left, AC_OUT, DEBUG, TIMEOUT
     if(os.getuid() != 0):
         print("This must be run as root")
         sys.exit(1)
-    global time_left, AC_OUT, DEBUG
-    MIN_VOLTS = 3.5
+    conf_file = '/etc/x728.conf'
+    config = configparser.ConfigParser()
+    if not os.path.exists('/etc/x728.conf'):
+        conf_file = 'x728.conf'
+    config.read(conf_file)
+    config.read('config.py')
+    version = float(config['DEVICE']['version'].strip(';'))
+    if version > 2:
+        PINS['boot'] = 13  # Change if older x728
+    TIMEOUT = config['PARAMETERS']['timeout']
+    MIN_VOLTS = config['PARAMETERS']['min_volts']
     bus = smbus.SMBus(1)  # setup the SMBus to read from.
     GPIO.setwarnings(False)  # disable incase of relaunch.
     GPIO.setmode(GPIO.BCM)
@@ -80,7 +91,7 @@ def main():
     GPIO.setup(PINS['OFF'], GPIO.OUT)
     # Set boot pin high to indicate we are running
     GPIO.output(PINS['BOOT'], GPIO.HIGH)
-
+    print("")
     AC_OUT = GPIO.input(PINS['AC'])
     GPIO.add_event_detect(PINS['AC'], GPIO.BOTH, callback=power_changed)
     while True:
