@@ -68,6 +68,7 @@ time_left = TIMEOUT
 
 
 def main():
+    global time_left, AC_OUT, DEBUG, TIMEOUT
     if(os.getuid() != 0):
         print("This must be run as root")
         sys.exit(1)
@@ -80,10 +81,8 @@ def main():
     version = config['DEVICE']['version']
     if version > 2:
         PINS['boot'] = 13  # Change if older x728
-    if config['PARAMETERS']['timeout']:
-        config['PARAMETERS']['timeout']
-    global time_left, AC_OUT, DEBUG
-    MIN_VOLTS = 3.5
+    TIMEOUT = config['PARAMETERS']['timeout']
+    MIN_VOLTS = config['PARAMETERS']['min_volts']
     bus = smbus.SMBus(1)  # setup the SMBus to read from.
     GPIO.setwarnings(False)  # disable incase of relaunch.
     GPIO.setmode(GPIO.BCM)
