@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import configparser
 import struct
 import smbus
 import time
@@ -67,6 +68,17 @@ time_left = TIMEOUT
 
 
 def main():
+    conf_file = '/etc/x728.conf'
+    config = configparser.ConfigParser()
+    if not os.path.exists('/etc/x728.conf'):
+        conf_file = 'x728.conf'
+    config.read(conf_file)
+    config.read('config.py')
+    version = config['DEVICE']['version']
+    if version > 2:
+        PINS['boot'] = 13  # Change if older x728
+    if config['PARAMETERS']['timeout']:
+        config['PARAMETERS']['timeout']
     if(os.getuid() != 0):
         print("This must be run as root")
         sys.exit(1)
