@@ -68,6 +68,9 @@ time_left = TIMEOUT
 
 
 def main():
+    if(os.getuid() != 0):
+        print("This must be run as root")
+        sys.exit(1)
     conf_file = '/etc/x728.conf'
     config = configparser.ConfigParser()
     if not os.path.exists('/etc/x728.conf'):
@@ -79,9 +82,6 @@ def main():
         PINS['boot'] = 13  # Change if older x728
     if config['PARAMETERS']['timeout']:
         config['PARAMETERS']['timeout']
-    if(os.getuid() != 0):
-        print("This must be run as root")
-        sys.exit(1)
     global time_left, AC_OUT, DEBUG
     MIN_VOLTS = 3.5
     bus = smbus.SMBus(1)  # setup the SMBus to read from.
