@@ -21,7 +21,7 @@ def power_changed(channel):
         )
     else:
         AC_OUT = False
-        print(F"{current_time}: Power Restored")
+        print(F"{current_time}: Power Restored\n")
         time_left = TIMEOUT
 
 
@@ -78,7 +78,7 @@ def main():
         conf_file = 'x728.conf'
     config.read(conf_file)
     config.read('config.py')
-    version = config['DEVICE']['version']
+    version = float(config['DEVICE']['version'].strip(';'))
     if version > 2:
         PINS['boot'] = 13  # Change if older x728
     TIMEOUT = config['PARAMETERS']['timeout']
@@ -91,7 +91,7 @@ def main():
     GPIO.setup(PINS['OFF'], GPIO.OUT)
     # Set boot pin high to indicate we are running
     GPIO.output(PINS['BOOT'], GPIO.HIGH)
-
+    print("")
     AC_OUT = GPIO.input(PINS['AC'])
     GPIO.add_event_detect(PINS['AC'], GPIO.BOTH, callback=power_changed)
     while True:
