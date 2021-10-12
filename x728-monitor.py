@@ -68,7 +68,7 @@ time_left = TIMEOUT
 
 
 def main():
-    global time_left, AC_OUT, DEBUG, TIMEOUT
+    global time_left, AC_OUT, DEBUG, TIMEOUT, PINS
     if(os.getuid() != 0):
         print("This must be run as root")
         sys.exit(1)
@@ -79,7 +79,7 @@ def main():
     config.read(conf_file)
     config.read('config.py')
     version = float(config['DEVICE']['version'].strip(';'))
-    if version > 2:
+    if version <= 2:
         PINS['boot'] = 13  # Change if older x728
     TIMEOUT = config['PARAMETERS']['timeout']
     MIN_VOLTS = config['PARAMETERS']['min_volts']
