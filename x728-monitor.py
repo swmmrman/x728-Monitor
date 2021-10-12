@@ -77,12 +77,12 @@ def main():
     if not os.path.exists('/etc/x728.conf'):
         conf_file = 'x728.conf'
     config.read(conf_file)
-    config.read('config.py')
     version = float(config['DEVICE']['version'].strip(';'))
     if version <= 2:
-        PINS['boot'] = 13  # Change if older x728
-    TIMEOUT = config['PARAMETERS']['timeout']
-    MIN_VOLTS = config['PARAMETERS']['min_volts']
+        PINS['OFF'] = 13  # Change if older x728
+    TIMEOUT = int(config['PARAMETERS']['timeout'])
+    time_left = TIMEOUT
+    MIN_VOLTS = float(config['PARAMETERS']['min_volts'])
     bus = smbus.SMBus(1)  # setup the SMBus to read from.
     GPIO.setwarnings(False)  # disable incase of relaunch.
     GPIO.setmode(GPIO.BCM)
