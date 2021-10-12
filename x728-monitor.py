@@ -91,7 +91,10 @@ def main():
     GPIO.setup(PINS['OFF'], GPIO.OUT)
     # Set boot pin high to indicate we are running
     GPIO.output(PINS['BOOT'], GPIO.HIGH)
-    print(F"Board version: {version} Shutdown Delay: {TIMEOUT} Min Volts: {MIN_VOLTS} MIN_CAPACITY: 0 OFF Pin: {PINS['OFF']}\n")
+    print(
+        F"Board version: {version} Shutdown Delay: {TIMEOUT} Min Volts: "
+        F"{MIN_VOLTS} MIN_CAPACITY: 0 OFF Pin: {PINS['OFF']}\n"
+    )
     AC_OUT = GPIO.input(PINS['AC'])
     GPIO.add_event_detect(PINS['AC'], GPIO.BOTH, callback=power_changed)
     while True:
@@ -101,7 +104,7 @@ def main():
         if AC_OUT:
             volts = get_voltage(bus)
             time_left -= 1
-            if time_left <= 0 or volts < MIN_VOLTS:
+            if time_left == 0 or volts < MIN_VOLTS:
                 call_shutdown()
 
 
