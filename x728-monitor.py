@@ -100,12 +100,12 @@ def main():
     AC_OUT = GPIO.input(PINS['AC'])
     GPIO.add_event_detect(PINS['AC'], GPIO.BOTH, callback=power_changed)
     while True:
+        volts = get_voltage(bus)
+        capacity = get_capacity(bus)
         if DEBUG:
-            print(F"\033[1A{get_voltage(bus):.2f} {get_capacity(bus):.2f}%")
+            print(F"\033[1A{volts:.2f} {capacity:.2f}%")
         time.sleep(1)
         if AC_OUT:
-            volts = get_voltage(bus)
-            capacity = get_capacity(bus)
             time_left -= 1
             if time_left == 0 or volts < MIN_VOLTS or capacity < MIN_CAPACITY:
                 call_shutdown()
