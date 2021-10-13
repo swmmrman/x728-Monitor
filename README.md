@@ -17,11 +17,13 @@ Steps:
   sudo systectl start x728Monitor.service
   or
   sudo service x728Monitor.service start
+6. x728.conf can be copied to /etc/x728.conf, if not coppied the local copy will be used.  If altered, it should be done in /etc/x728.conf
 
 To disable the service to prevent starting at boot, run
   sudo systemctl disable x728Monitor.service
   or
   sudo service x728Monitor.service disable
+
 
 
 # Coming soon
