@@ -84,6 +84,7 @@ def main():
     TIMEOUT = int(config['PARAMETERS']['timeout'])
     time_left = TIMEOUT
     MIN_VOLTS = float(config['PARAMETERS']['min_volts'])
+    MIN_CAPACITY = int(config['PARAMETERS']['min_capacity'])
     bus = smbus.SMBus(1)  # setup the SMBus to read from.
     GPIO.setwarnings(False)  # disable incase of relaunch.
     GPIO.setmode(GPIO.BCM)
@@ -104,8 +105,9 @@ def main():
         time.sleep(1)
         if AC_OUT:
             volts = get_voltage(bus)
+            capacity = get_capacity(bus)
             time_left -= 1
-            if time_left == 0 or volts < MIN_VOLTS:
+            if time_left == 0 or volts < MIN_VOLTS or capacity < MIN_CAPACITY:
                 call_shutdown()
 
 
