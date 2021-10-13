@@ -95,7 +95,7 @@ def main():
     GPIO.output(PINS['BOOT'], GPIO.HIGH)
     print(
         F"Board version: {version} Shutdown Delay: {TIMEOUT} Min Volts: "
-        F"{MIN_VOLTS} MIN_CAPACITY: 0 OFF Pin: {PINS['OFF']}\n"
+        F"{MIN_VOLTS} MIN_CAPACITY: {MIN_CAPACITY} OFF Pin: {PINS['OFF']}\n"
     )
     AC_OUT = GPIO.input(PINS['AC'])
     GPIO.add_event_detect(PINS['AC'], GPIO.BOTH, callback=power_changed)
