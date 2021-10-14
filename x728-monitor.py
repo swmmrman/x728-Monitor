@@ -60,6 +60,7 @@ PINS = {
     # Pin to signal we are shutting down
     # GPIO is 26 for x728 v2.0, GPIO is 13 for X728 v1.2/v1.3
     'OFF': 26,
+    'BUZZ': 20,
 }
 
 DEBUG = False
