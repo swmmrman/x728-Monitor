@@ -79,7 +79,7 @@ def main():
     config.read(conf_file)
     version = float(config['DEVICE']['version'].strip(';'))
     DEBUG = True if config['PARAMETERS']['debug'].strip() == "true" else False
-    if version <= 2:
+    if version < 2:
         PINS['OFF'] = 13  # Change if older x728
     TIMEOUT = int(config['PARAMETERS']['timeout'])
     time_left = TIMEOUT
