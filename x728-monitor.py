@@ -93,7 +93,8 @@ def main():
     GPIO.setup(PINS['AC'], GPIO.IN)  # AC detect pin is read only
     GPIO.setup(PINS['BOOT'], GPIO.OUT)
     GPIO.setup(PINS['OFF'], GPIO.OUT)
-    GPIO.setup(PINS['BUZZ'], GPIO.OUT)
+    if PINS['BUZZ'] != 0:
+        GPIO.setup(PINS['BUZZ'], GPIO.OUT)
     # Set boot pin high to indicate we are running
     GPIO.output(PINS['BOOT'], GPIO.HIGH)
     print(
@@ -113,9 +114,10 @@ def main():
         time.sleep(1)
         if AC_OUT:
             time_left -= 1
-            GPIO.output(PINS['BUZZ'], 1)
-            time.sleep(.1)
-            GPIO.output(PINS['BUZZ'], 0)
+            if PINS['BUZZ'] != 0:
+                GPIO.output(PINS['BUZZ'], 1)
+                time.sleep(.1)
+                GPIO.output(PINS['BUZZ'], 0)
             if time_left == 0 or volts < MIN_VOLTS or capacity < MIN_CAPACITY:
                 call_shutdown()
 
