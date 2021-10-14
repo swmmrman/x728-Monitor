@@ -92,6 +92,7 @@ def main():
     GPIO.setup(PINS['AC'], GPIO.IN)  # AC detect pin is read only
     GPIO.setup(PINS['BOOT'], GPIO.OUT)
     GPIO.setup(PINS['OFF'], GPIO.OUT)
+    GPIO.setup(PINS['BUZZ'], GPIO.OUT)
     # Set boot pin high to indicate we are running
     GPIO.output(PINS['BOOT'], GPIO.HIGH)
     print(
