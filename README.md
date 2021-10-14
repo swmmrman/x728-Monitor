@@ -18,6 +18,7 @@ Steps:
   or
   sudo service x728Monitor.service start
 6. x728.conf can be copied to /etc/x728.conf, if not coppied the local copy will be used.  If altered, it should be done in /etc/x728.conf
+7. For versions before 2.1, you can add a buzzer on pin 20, or any pin of your chosing.  Buzzer can be disabled by setting buzzer to 0 in the config file.
 
 To disable the service to prevent starting at boot, run
   sudo systemctl disable x728Monitor.service
@@ -35,8 +36,8 @@ To disable the service to prevent starting at boot, run
 Compatible Devices
 Computer | x728 version
 -------- | -----------
-Raspberry Pi 4B|v1.3,v2.0
-Raspberry PI 3B+*|v1.3,v2.0
+Raspberry Pi 4B|v1.3,v2.0,v2.1
+Raspberry PI 3B+*|v1.3,v2.0,v2.1
 
 *Support in the future is not guaranteed.
 
