@@ -103,7 +103,6 @@ def main():
     )
     AC_OUT = GPIO.input(PINS['AC'])
     GPIO.add_event_detect(PINS['AC'], GPIO.BOTH, callback=power_changed)
-    beeping = False
     while True:
         volts = get_voltage(bus)
         capacity = get_capacity(bus)
@@ -112,8 +111,9 @@ def main():
         time.sleep(1)
         if AC_OUT:
             time_left -= 1
-            beeping = not beeping
-            GPIO.output(PINS['BUZZ'], beeping)
+            GPIO.output(PINS['BUZZ'], 1)
+            time.sleep(.1)
+            GPIO.output(PINS['BUZZ'], 0)
             if time_left == 0 or volts < MIN_VOLTS or capacity < MIN_CAPACITY:
                 call_shutdown()
 
