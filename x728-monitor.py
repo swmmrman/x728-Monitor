@@ -66,6 +66,7 @@ PINS = {
 DEBUG = False
 TIMEOUT = 30
 time_left = TIMEOUT
+ALERT_LEVEL = 50.0
 
 
 def main():
@@ -98,11 +99,12 @@ def main():
     # Set boot pin high to indicate we are running
     GPIO.output(PINS['BOOT'], GPIO.HIGH)
     print(
-        F"Board version: {version}\n"
-        F"Shutdown Delay: {TIMEOUT}\n"
-        F"Min Volts: {MIN_VOLTS}\n"
-        F"MIN_CAPACITY: {MIN_CAPACITY}\n"
-        F"OFF Pin: {PINS['OFF']}\n"
+        F"Board version: \t{version}\n"
+        F"Shutdown Delay: \t{TIMEOUT}\n"
+        F"Min Volts: \t\t{MIN_VOLTS}v\n"
+        F"Alert Level: \t\t{ALERT_LEVEL:.2f}%\n"
+        F"Off Level: \t\t{MIN_CAPACITY:.2f}%\n"
+        F"OFF Pin: \t\t{PINS['OFF']}\n"
     )
     AC_OUT = GPIO.input(PINS['AC'])
     GPIO.add_event_detect(PINS['AC'], GPIO.BOTH, callback=power_changed)
@@ -112,7 +114,7 @@ def main():
         if DEBUG:
             print(F"\033[1A{volts:.2f} {capacity:.2f}%")
         time.sleep(1)
-        if AC_OUT:
+        if AC_OUT and (capacity <= ALERT_LEVEL):
             time_left -= 1
             if PINS['BUZZ'] != 0:
                 GPIO.output(PINS['BUZZ'], 1)
