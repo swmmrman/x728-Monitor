@@ -11,5 +11,6 @@ sed -i '$ i hwclock -s' /etc/rc.local
 hwclock -w
 
 cp x728-Monitor.py /usr/bin/x728-Monitor
+cp x728Monitor.service  /etc/systemd/system/
 chmod u+rwx /etc/systemd/system/x728Monitor.service
 systemctl enable x728Monitor
