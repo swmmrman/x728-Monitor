@@ -66,7 +66,7 @@ PINS = {
 DEBUG = False
 TIMEOUT = 30
 time_left = TIMEOUT
-ALERT_LEVEL = 50.0
+ALERT_LEVEL = 100.0
 
 
 def main():
