@@ -10,6 +10,7 @@ sed -i '$ i echo ds1307 0x68 > /sys/class/i2c-adapter/i2c-1/new_device' /etc/rc.
 sed -i '$ i hwclock -s' /etc/rc.local
 hwclock -w
 
+cp x728.conf /etc/
 cp x728-Monitor.py /usr/bin/x728-Monitor
 cp x728Monitor.service  /etc/systemd/system/
 chmod u+rwx /etc/systemd/system/x728Monitor.service
