@@ -105,6 +105,7 @@ def main():
     print(
         F"Board version: \t{version}\n"
         F"Shutdown Delay: \t{TIMEOUT}\n"
+        F"Alert Volts:\t\t{ALERT_VOLTS}\n"
         F"Min Volts: \t\t{MIN_VOLTS}v\n"
         F"Alert Level: \t\t{ALERT_LEVEL:.2f}%\n"
         F"Off Level: \t\t{MIN_CAPACITY:.2f}%\n"
