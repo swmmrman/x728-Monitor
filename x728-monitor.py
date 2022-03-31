@@ -119,12 +119,13 @@ def main():
         if DEBUG:
             print(F"\033[1A{volts:.2f} {capacity:.2f}%", flush=True)
         time.sleep(1)
-        if AC_OUT and (capacity <= ALERT_LEVEL or volts <= ALERT_VOLTS):
-            time_left -= 1
-            if PINS['BUZZ'] != 0:
-                GPIO.output(PINS['BUZZ'], 1)
-                time.sleep(.1)
-                GPIO.output(PINS['BUZZ'], 0)
+        if AC_OUT:
+            if(capacity <= ALERT_LEVEL or volts <= ALERT_VOLTS):
+                time_left -= 1
+                if PINS['BUZZ'] != 0:
+                    GPIO.output(PINS['BUZZ'], 1)
+                    time.sleep(.1)
+                    GPIO.output(PINS['BUZZ'], 0)
             if time_left == 0 or volts < MIN_VOLTS or capacity < MIN_CAPACITY:
                 call_shutdown()
 
