@@ -85,7 +85,7 @@ def main():
     ALERT_LEVEL = float(config['PARAMETERS']['alert_level'].strip())
     ALERT_VOLTS = float(config['PARAMETERS']['alert_level'].strip())
     DEBUG = True if config['PARAMETERS']['debug'].strip() == "true" else False
-    PINS['BUZZ'] = float(config['PARAMETERS']['buzzer'].split(" ")[0])
+    PINS['BUZZ'] = int(config['PARAMETERS']['buzzer'].split(" ")[0])
     if version < 2:
         PINS['OFF'] = 13  # Change if older x728
     TIMEOUT = int(config['PARAMETERS']['timeout'])
