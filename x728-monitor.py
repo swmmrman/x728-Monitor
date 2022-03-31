@@ -17,11 +17,12 @@ def power_changed(channel):
         print(
             F"{current_time}: X728: Power Lost\n"
             F"Starting power off countdown\n"
-            F"{TIMEOUT}: seconds until shutdown\n"
+            F"{TIMEOUT}: seconds until shutdown\n",
+            flush=True
         )
     else:
         AC_OUT = False
-        print(F"{current_time}: Power Restored\n")
+        print(F"{current_time}: Power Restored\n", flush=True)
         time_left = TIMEOUT
 
 
@@ -47,7 +48,7 @@ def call_shutdown():
     GPIO.output(PINS['OFF'], GPIO.HIGH)  # Set shutdown pin high.
     time.sleep(4)  # 4 seconds to signal we are shutting down the X728
     GPIO.output(PINS['OFF'],  GPIO.LOW)  # Set back low to prevent forced off.
-    print(F"{time.asctime()}:X728 Shutting down...")
+    print(F"{time.asctime()}:X728 Shutting down...", flush=True)
     os.system('poweroff')
     # GPIO.cleanup()
     # sys.exit(0) # Exit out.
@@ -72,7 +73,7 @@ ALERT_LEVEL = 100.0
 def main():
     global time_left, AC_OUT, DEBUG, TIMEOUT, PINS
     if(os.getuid() != 0):
-        print("This must be run as root")
+        print("This must be run as root", flush=True)
         sys.exit(1)
     conf_file = '/etc/x728.conf'
     config = configparser.ConfigParser()
@@ -104,7 +105,8 @@ def main():
         F"Min Volts: \t\t{MIN_VOLTS}v\n"
         F"Alert Level: \t\t{ALERT_LEVEL:.2f}%\n"
         F"Off Level: \t\t{MIN_CAPACITY:.2f}%\n"
-        F"OFF Pin: \t\t{PINS['OFF']}\n"
+        F"OFF Pin: \t\t{PINS['OFF']}\n",
+        flush=True
     )
     AC_OUT = GPIO.input(PINS['AC'])
     GPIO.add_event_detect(PINS['AC'], GPIO.BOTH, callback=power_changed)
@@ -112,7 +114,7 @@ def main():
         volts = get_voltage(bus)
         capacity = get_capacity(bus)
         if DEBUG:
-            print(F"\033[1A{volts:.2f} {capacity:.2f}%")
+            print(F"\033[1A{volts:.2f} {capacity:.2f}%", flush=True)
         time.sleep(1)
         if AC_OUT and (capacity <= ALERT_LEVEL):
             time_left -= 1
