@@ -2,7 +2,7 @@
 After=network.target
 
 [Service]
-WorkingDirectory=/home/pi/x728-Monitor/
+WorkingDirectory=/usr/bin/
 ExecStart=/usr/bin/x728-monitor.py
 # KillMode=process <--- leave killmode blank if you want node to kill itself when you manually stop the service!!
 StandardOutput=syslog
