@@ -6,5 +6,5 @@ fi
 
 cp x728-monitor.py /usr/bin/
 cp x728Monitor.service /etc/systemd/system/
-systemctl deamon-reload
+systemctl daemon-reload
 systemctl restart x728Monitor.service
