@@ -85,13 +85,13 @@ def main():
     ALERT_LEVEL = float(config['PARAMETERS']['alert_level'].strip())
     ALERT_VOLTS = float(config['PARAMETERS']['alert_level'].strip())
     DEBUG = True if config['PARAMETERS']['debug'].strip() == "true" else False
-    PINS['BUZZ'] = int(config['PARAMETERS']['buzzer'].split(" ")[0])
+    PINS['BUZZ'] = float(config['PARAMETERS']['buzzer'].split(" ")[0])
     if version < 2:
         PINS['OFF'] = 13  # Change if older x728
     TIMEOUT = int(config['PARAMETERS']['timeout'])
     time_left = -1 if TIMEOUT == 0 else TIMEOUT
     MIN_VOLTS = float(config['PARAMETERS']['min_volts'])
-    MIN_CAPACITY = int(config['PARAMETERS']['min_capacity'])
+    MIN_CAPACITY = float(config['PARAMETERS']['min_capacity'])
     bus = smbus.SMBus(1)  # setup the SMBus to read from.
     GPIO.setwarnings(False)  # disable incase of relaunch.
     GPIO.setmode(GPIO.BCM)
