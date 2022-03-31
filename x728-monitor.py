@@ -83,7 +83,7 @@ def main():
     config.read(conf_file)
     version = float(config['DEVICE']['version'].strip(';'))
     ALERT_LEVEL = float(config['PARAMETERS']['alert_level'].strip())
-    ALERT_VOLTS = float(config['PARAMETERS']['alert_level'].strip())
+    ALERT_VOLTS = float(config['PARAMETERS']['alert_volts'].strip())
     DEBUG = True if config['PARAMETERS']['debug'].strip() == "true" else False
     PINS['BUZZ'] = int(config['PARAMETERS']['buzzer'].split(" ")[0])
     if version < 2:
