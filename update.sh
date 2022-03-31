@@ -5,3 +5,4 @@ if [ `whoami` != "root" ] || [ "$UID" != 0 ]; then
 fi
 
 cp x728-Monitor.py /usr/bin/x728-Monitor
+systemctl restart x728Monitor.service
