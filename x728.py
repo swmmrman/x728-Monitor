@@ -20,6 +20,9 @@ class x728(object):
         }
         if(version < 2):
             self.PINS['OFF'] = 13  # 13 for older boards.
+        GPIO.setup(self.PINS['BOOT'], GPIO.OUT)
+        GPIO.setup(self.PINS['OFF'], GPIO.OUT)
+        GPIO.setup(self.PINS['AC'], GPIO.IN)
         self.voltage = self.get_voltage()
         self.capacity = self.get_capacity()
         self.ac_status = GPIO.input(self.PINS['AC'])
