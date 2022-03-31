@@ -23,7 +23,7 @@ def power_changed(channel):
     else:
         AC_OUT = False
         print(F"{current_time}: Power Restored\n", flush=True)
-        time_left = TIMEOUT
+        time_left = -1 if TIMEOUT == 0 else TIMEOUT
 
 
 def get_voltage(bus):
@@ -89,7 +89,7 @@ def main():
     if version < 2:
         PINS['OFF'] = 13  # Change if older x728
     TIMEOUT = int(config['PARAMETERS']['timeout'])
-    time_left = TIMEOUT
+    time_left = -1 if TIMEOUT == 0 else TIMEOUT
     MIN_VOLTS = float(config['PARAMETERS']['min_volts'])
     MIN_CAPACITY = int(config['PARAMETERS']['min_capacity'])
     bus = smbus.SMBus(1)  # setup the SMBus to read from.
