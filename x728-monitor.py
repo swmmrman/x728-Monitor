@@ -81,17 +81,22 @@ def main():
     if not os.path.exists('/etc/x728.conf'):
         conf_file = 'x728.conf'
     config.read(conf_file)
-    version = float(config['DEVICE']['version'].strip(';'))
-    ALERT_LEVEL = float(config['PARAMETERS']['alert_level'].strip())
-    ALERT_VOLTS = float(config['PARAMETERS']['alert_volts'].strip())
-    DEBUG = True if config['PARAMETERS']['debug'].strip() == "true" else False
-    PINS['BUZZ'] = int(config['PARAMETERS']['buzzer'].split(" ")[0])
+    try:
+        version = float(config['DEVICE']['version'].strip(';'))
+        ALERT_LEVEL = float(config['PARAMETERS']['alert_level'].strip())
+        ALERT_VOLTS = float(config['PARAMETERS']['alert_volts'].strip())
+        MIN_VOLTS = float(config['PARAMETERS']['min_volts'])
+        MIN_CAPACITY = float(config['PARAMETERS']['min_capacity'])
+        TIMEOUT = int(config['PARAMETERS']['timeout'])
+        DEBUG = True if config['PARAMETERS']['debug'].strip() == "true" else False
+        PINS['BUZZ'] = int(config['PARAMETERS']['buzzer'].split(" ")[0])
+    except KeyError as e:
+        print(F"Key {e.args[0]} not found.  Please modify the new x728.conf and "
+              F"copy to /etc/x728.conf"
+        )
     if version < 2:
         PINS['OFF'] = 13  # Change if older x728
-    TIMEOUT = int(config['PARAMETERS']['timeout'])
     time_left = -1 if TIMEOUT == 0 else TIMEOUT
-    MIN_VOLTS = float(config['PARAMETERS']['min_volts'])
-    MIN_CAPACITY = float(config['PARAMETERS']['min_capacity'])
     bus = smbus.SMBus(1)  # setup the SMBus to read from.
     GPIO.setwarnings(False)  # disable incase of relaunch.
     GPIO.setmode(GPIO.BCM)
