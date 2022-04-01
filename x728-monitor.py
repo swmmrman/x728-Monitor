@@ -93,7 +93,8 @@ def main():
     except KeyError as e:
         print(F"Key {e.args[0]} not found.  Please modify the new x728.conf and "
               F"copy to /etc/x728.conf"
-        )
+              )
+        sys.exit(1)
     if version < 2:
         PINS['OFF'] = 13  # Change if older x728
     time_left = -1 if TIMEOUT == 0 else TIMEOUT
